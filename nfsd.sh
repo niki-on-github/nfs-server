@@ -22,7 +22,7 @@ while [ -z "$(pidof rpc.mountd)" ]; do
     /sbin/rpcinfo
 
     echo "Starting NFS in the background..."
-    /usr/sbin/rpc.nfsd --debug 8 --no-udp --no-nfs-version 2 --no-nfs-version 3
+    /usr/sbin/rpc.nfsd --debug 8 --no-nfs-version 3
 
     echo "Exporting File System..."
     if /usr/sbin/exportfs -rv; then
@@ -33,11 +33,11 @@ while [ -z "$(pidof rpc.mountd)" ]; do
     fi
 
     echo "Starting Mountd in the background..."
-    /usr/sbin/rpc.mountd --debug all --no-udp --no-nfs-version 2 --no-nfs-version 3
+    /usr/sbin/rpc.mountd --debug all --no-udp --no-nfs-version 3
 
     if [ -z "$(pidof rpc.mountd)" ]; then
         echo "Startup of NFS failed, retrying..."
-        sleep 2
+        sleep 30
     fi
 done
 
