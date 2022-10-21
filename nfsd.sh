@@ -16,7 +16,7 @@ echo "/etc/exports content:"
 cat /etc/exports
 echo ""
 
-while [ -z "$(pidof rpc.mountd)" ]; do
+while true; do
     echo "Starting rpcbind..."
     /sbin/rpcbind -w
     /sbin/rpcinfo
@@ -38,10 +38,12 @@ while [ -z "$(pidof rpc.mountd)" ]; do
     if [ -z "$(pidof rpc.mountd)" ]; then
         echo "Startup of NFS failed, retrying..."
         sleep 30
+    else
+        echo "Startup successful"
+        break
     fi
 done
 
-echo "Startup successful"
 
 while true; do
     if [ -z "$(pidof rpc.mountd)" ]; then
