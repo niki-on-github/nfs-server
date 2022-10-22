@@ -9,6 +9,17 @@ stop() {
   echo "Terminated."
 }
 
+# absolute paths seperated by ';'
+if [ -n "${CREATE_DIRECTORIES}" ]; then
+    remaining_paths=${CREATE_DIRECTORIES}
+    while [ -n "$remaining_paths" ] ; do
+        path=${remaining_paths%%;*}
+        [ "$remaining_paths" = "${remaining_paths/;/}" ] && remaining_paths= || remaining_paths=${remaining_paths#*;}
+        echo "ensure directory \"$path\" exists"
+        mkdir -p "$path"
+    done
+fi
+
 set -uo pipefail
 IFS=$'\n\t'
 
