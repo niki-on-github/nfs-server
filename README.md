@@ -30,7 +30,7 @@ spec:
 
     image:
       repository: ghcr.io/niki-on-github/nfs-server
-      tag: dev
+      tag: v1.0.0
 
     service:
       main:
