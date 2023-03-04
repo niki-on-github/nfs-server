@@ -9,6 +9,8 @@ stop() {
   echo "Terminated."
 }
 
+mkdir -p /nfs
+
 # absolute paths seperated by ';'
 if [ -n "${CREATE_DIRECTORIES}" ]; then
     remaining_paths=${CREATE_DIRECTORIES}
@@ -17,8 +19,10 @@ if [ -n "${CREATE_DIRECTORIES}" ]; then
         [ "$remaining_paths" = "${remaining_paths/;/}" ] && remaining_paths= || remaining_paths=${remaining_paths#*;}
         echo "ensure directory \"$path\" exists"
         mkdir -p "$path"
+        mount --bind $path /nfs/`basename $path`
     done
 fi
+
 
 set -uo pipefail
 IFS=$'\n\t'

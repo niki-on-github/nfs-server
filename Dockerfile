@@ -10,4 +10,6 @@ RUN mkdir -p /var/lib/nfs/rpc_pipefs /var/lib/nfs/v4recovery && \
 COPY nfsd.sh /usr/bin/nfsd.sh
 RUN chmod +x /usr/bin/nfsd.sh
 
+VOLUME /nfs
+
 ENTRYPOINT ["/usr/bin/nfsd.sh"]
