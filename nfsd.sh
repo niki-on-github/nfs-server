@@ -19,10 +19,22 @@ if [ -n "${CREATE_DIRECTORIES}" ]; then
         [ "$remaining_paths" = "${remaining_paths/;/}" ] && remaining_paths= || remaining_paths=${remaining_paths#*;}
         echo "ensure directory \"$path\" exists"
         mkdir -p "$path"
-        mount --bind $path /nfs/`basename $path`
     done
 fi
 
+# absolute paths seperated by ';'
+if [ -n "${LINK_DIRECTORIES}" ]; then
+    remaining_paths=${LINK_DIRECTORIES}
+    while [ -n "$remaining_paths" ] ; do
+        path=${remaining_paths%%;*}
+        [ "$remaining_paths" = "${remaining_paths/;/}" ] && remaining_paths= || remaining_paths=${remaining_paths#*;}
+        dest="/nfs/$(basename $path)"
+        echo "ensure directory \"$dest\" exists"
+        mkdir -p "$dest"
+        echo "bind \"$path\" -> \"$dest\""
+        mount --bind $path $dest
+    done
+fi
 
 set -uo pipefail
 IFS=$'\n\t'
