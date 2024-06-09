@@ -19,6 +19,7 @@ if [ -n "${CREATE_DIRECTORIES}" ]; then
         [ "$remaining_paths" = "${remaining_paths/;/}" ] && remaining_paths= || remaining_paths=${remaining_paths#*;}
         echo "ensure directory \"$path\" exists"
         mkdir -p "$path"
+        eval "chmod ${CREATE_DIRECTORIES_MODE:-0755} \"$path\""
     done
 fi
 
